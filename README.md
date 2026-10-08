@@ -1,0 +1,1 @@
+# 07_projeto_ai_basica
