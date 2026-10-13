@@ -14,6 +14,37 @@ def limpar_tela():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 #=====================
+#Função para Avisos
+#=====================
+
+def aviso(texto):
+    limpar_tela()
+    print(f"\n{texto}")
+    time.sleep(1)
+    limpar_tela()
+
+#=====================
+#Função de Criação de Lista
+#=====================
+
+def lista():
+
+    with open(caminho, "r", encoding="utf=8") as arquivo:
+        despesas = json.load(arquivo)
+
+    for item in despesas:
+        print(f"ID: {item['ID']} | Data: {item['Data']} | Nome: {item['Nome']} | Valor: {item['Valor']}R$ | Categoria: {item['Categoria']}")
+
+#=====================
+#Função de Título
+#=====================
+
+def titulo(texto):
+    print("\n================================")
+    print(f"{texto}")
+    print("================================\n")
+
+#=====================
 #Função de Exibir Menu
 #=====================
 
@@ -22,17 +53,14 @@ def menu():
     limpar_tela()
 
     while True:
-        print("\n================================")
-        print("GERENCIADOR DE DESPESAS")
-        print("================================\n")
+        titulo("GERENCIADOR DE DESPESAS")
         print("1. Cadastrar despesa") 
         print("2. Listar despesas")
         print("3. Editar despesa")
         print("4. Excluir despesa")
         print("5. Ver gastos por categoria")
-        print("6. Ver total do mês")
-        print("7. Definir orçamento mensal")
-        print("8. Salvar e sair")
+        print("6. Ver total")
+        print("7. Salvar e sair")
         print("\n================================\n")
 
         opcao = input("Escolha uma opção: ")
@@ -40,9 +68,7 @@ def menu():
         limpar_tela()
 
         if opcao not in ["1", "2", "3", "4", "5", "6", "7", "8"]:  
-            print("\nInsira um valor válido!")
-            time.sleep(1)
-            limpar_tela()
+            aviso("INSIRA UM VALOR VÁLIDO!!!")
         else:
             escolhas(opcao)
             return True
@@ -56,9 +82,7 @@ caminho = os.path.join(pasta_atual, "despesas.json")
 
 def cadastrar():
 
-    print("\n================================")
-    print("CADASTRAR DESPESAS")
-    print("================================\n")
+    titulo("CADASTRO DE DESPESAS")
 
     nome = input("- Digite o nome da despesa: ")
     valor = input("- Digite o valor da despesa: ")
@@ -92,10 +116,7 @@ def cadastrar():
     with open(caminho, "w", encoding="utf=8") as arquivo:
         json.dump(dados, arquivo, indent=4, ensure_ascii=False)
 
-    limpar_tela()
-
-    print("DESPESA CADASTRADA!!!")   
-    time.sleep(1)
+    aviso("DESPESA CADASTRADA")
 
     menu()    
 
@@ -108,15 +129,9 @@ def listar():
     while True:
         limpar_tela()
 
-        with open(caminho, "r", encoding="utf=8") as arquivo:
-            despesas = json.load(arquivo)
+        titulo("LISTAR DESPESAS")
 
-        print("\n================================")
-        print("LISTAR DESPESAS")
-        print("================================\n")
-
-        for item in despesas:
-            print(f"ID: {item['ID']} | Data: {item['Data']} | Nome: {item['Nome']} | Valor: {item['Valor']} | Categoria: {item['Categoria']}")
+        lista()
 
         print("\n================================")
         print("1. Voltar")
@@ -131,9 +146,7 @@ def listar():
             sair()
             return True
         else:
-            limpar_tela()
-            print("\nInsira um valor válido!")
-            time.sleep(1)
+            aviso("INSIRA UM VALOR VÁLIDO!!!")
 
 
 #=====================
@@ -145,15 +158,9 @@ def editar():
     while True:
         limpar_tela()
     
-        with open(caminho, "r", encoding="utf=8") as arquivo:
-            despesas = json.load(arquivo)
+        titulo("EDITAR DESPESAS")
     
-        print("\n================================")
-        print("EDITAR DESPESAS")
-        print("================================\n")
-    
-        for item in despesas:
-            print(f"ID: {item['ID']} | Data: {item['Data']} | Nome: {item['Nome']} | Valor: {item['Valor']} | Categoria: {item['Categoria']}")
+        lista()
     
         print("\n================================")
         print("1. Editar")
@@ -163,23 +170,24 @@ def editar():
         opcao = input("Escolha uma opção: ")
     
         if opcao == "1":
+            limpar_tela()
 
-            print("\n================================")
-            print("EDITAR")
-            print("=================================\n")
+            titulo("EDITAR")
 
             id_buscar = int(input("Digite o ID da despesa: "))
+
+            with open(caminho, "r", encoding="utf=8") as arquivo:
+                despesas = json.load(arquivo)
 
             for item in despesas:
                 if item['ID'] == id_buscar:
                     item['Nome'] = input(f"Novo nome (atual: {item['Nome']}): ") or item['Nome']
-                    item['Valor'] = input(f"Novo valor (atual: {item['Valor']}): ") or item['Valor']
+                    item['Valor'] = input(f"Novo valor (atual: {item['Valor']}R$): ") or item['Valor']
                     item['Categoria'] = input(f"Novo categoria (atual: {item['Categoria']}): ") or item['Categoria']
                     item['Data'] = input(f"Novo data (atual: {item['Data']}): ") or item['Data']
                     break
             else:
-                print("ID não encontrado!!!")
-                time.sleep(1)
+                aviso("DESPESA NÃO ENCONTRADA!!!")
 
             with open(caminho, "w", encoding="utf=8") as arquivo:
                 json.dump(despesas, arquivo, indent=4, ensure_ascii=False)
@@ -191,9 +199,7 @@ def editar():
             sair()
             return True
         else:
-            limpar_tela()
-            print("\nInsira um valor válido!")
-            time.sleep(1)
+            aviso("INSIRA UM VALOR VÁLIDO!!!")
 
 #=====================
 #Função de Excluir
@@ -204,15 +210,9 @@ def excluir():
     while True:
         limpar_tela()
     
-        with open(caminho, "r", encoding="utf=8") as arquivo:
-            despesas = json.load(arquivo)
+        titulo("EXCLUIR DESPESAS")
     
-        print("\n================================")
-        print("EXCLUIR DESPESAS")
-        print("================================\n")
-    
-        for item in despesas:
-            print(f"ID: {item['ID']} | Data: {item['Data']} | Nome: {item['Nome']} | Valor: {item['Valor']} | Categoria: {item['Categoria']}")
+        lista()
     
         print("\n================================")
         print("1. Excluir")
@@ -222,12 +222,14 @@ def excluir():
         opcao = input("Escolha uma opção: ")
     
         if opcao == "1":
+            limpar_tela()
 
-            print("\n================================")
-            print("EXCLUIR")
-            print("================================\n")
+            titulo("EXCLUIR")
 
             excluir_id = int(input("Digite o ID da despesa: "))
+
+            with open(caminho, "r", encoding="utf=8") as arquivo:
+                despesas = json.load(arquivo)
 
             despesas = [
                 despesa for despesa in despesas
@@ -237,9 +239,7 @@ def excluir():
             with open(caminho, "w", encoding="utf=8") as arquivo:
                 json.dump(despesas, arquivo, indent=4, ensure_ascii=False)
 
-            limpar_tela()
-            print("Despesa excluída com sucesso!")
-            time.sleep(1)
+            aviso("DESPESA EXCLUÍDA")
 
         elif opcao == "2":
             menu()
@@ -248,8 +248,7 @@ def excluir():
             sair()
             return True
         else:
-            limpar_tela()
-            print("\nInsira um valor válido!")
+            aviso("INSIRA UM VALOR VÁLIDO!!!")
             
 #=====================
 #Função de Visualizar Gastos por Categoria
@@ -257,31 +256,90 @@ def excluir():
 
 def ver_gastos():
 
-    print("\n================================")
-    print("VISUALIZAR GASTOS")
-    print("================================\n")
+    while True:
+        limpar_tela()
 
-    categoria = input("Escolha uma categoria para verificar os gastos: ")
+        existe = False
+
+        with open(caminho, "r", encoding="utf=8") as arquivo:
+            despesas = json.load(arquivo)
+
+        titulo("VISUALIZAR GASTOS")
+
+        print("\n================================")
+        print("1. Pesquisar")
+        print("2. Voltar")
+        print("3. Sair")
+        print("=================================\n")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            limpar_tela()
+
+            titulo("CATEGORIA")
+
+            categoria = input("Digite a categoria: ")
+
+            print("\n================================\n")
+
+            for item in despesas:
+                if categoria == item['Categoria']:
+                    print(f"ID: {item['ID']} | Data: {item['Data']} | Nome: {item['Nome']} | Valor: {item['Valor']}R$ | Categoria: {item['Categoria']}")
+                    existe = True
+
+            if existe == False:
+                print("Nenhuma despesa encontrada nessa categoria!!!")
+
+            print("\n================================\n")
+            input("Pressione ENTER para continuar...")
+
+        elif opcao == "2":
+            menu()
+            return True
+        elif opcao == "3":
+            sair()
+            return True
+        else:
+            aviso("INSIRA UM VALOR VÁLIDO!!!")
+
+#=====================
+#Função de Visualizar Gastos
+#=====================
+
+def ver_total():
+
+    limpar_tela()
+
+    titulo("VISUALIZAR TOTAL")
+
+    lista()
 
     with open(caminho, "r", encoding="utf=8") as arquivo:
         despesas = json.load(arquivo)
 
-    print("\n================================")
+    total = 0
 
     for item in despesas:
-        if categoria == item['Categoria']:
-            print(f"ID: {item['ID']} | Data: {item['Data']} | Nome: {item['Nome']} | Valor: {item['Valor']} | Categoria: {item['Categoria']}")
-        else:
-            print("Nenhuma despesa encontrada nessa categoria!!!")
+        total += float(item['Valor'].replace(',', '.'))
 
-    print("================================")
-
-
-#def ver_total():
-
-
-#def orcamento():
-
+    print("\n================================\n")
+    print(f"Total: {total:.2f}R$")
+    print("\n================================")
+    print("1. Voltar")
+    print("2. Sair")
+    print("=================================\n")
+    
+    opcao = input("Escolha uma opção: ")
+    
+    if opcao == "1":
+        menu()
+        return True
+    elif opcao == "2":
+        sair()
+        return True
+    else:
+                aviso("INSIRA UM VALOR VÁLIDO!!!")
 
 def sair():
 
@@ -304,6 +362,8 @@ def escolhas(opcao):
             excluir()
         case "5":
             ver_gastos()
-        case "8":
+        case "6":
+            ver_total()
+        case "7":
             sair()
 menu()

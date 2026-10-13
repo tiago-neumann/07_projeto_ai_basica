@@ -1,9 +1,23 @@
 [
     {
-        "ID": 2,
-        "Nome": "dwdadwdawdwa",
-        "Valor": "dwawdwdadwadawd",
-        "Categoria": "ddad",
+        "ID": 4,
+        "Nome": "Pratos",
+        "Valor": "199.99",
+        "Categoria": "Utensílios",
+        "Data": "12/10/26"
+    },
+    {
+        "ID": 5,
+        "Nome": "Gorro",
+        "Valor": "39.99",
+        "Categoria": "Roupa",
+        "Data": "12/10/26"
+    },
+    {
+        "ID": 6,
+        "Nome": "Farofa de Milho",
+        "Valor": "9.99",
+        "Categoria": "Alimento",
         "Data": "12/10/26"
     }
 ]
