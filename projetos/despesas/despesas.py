@@ -1,21 +1,43 @@
+"""import json - Permite trabalhar com dados de arquivos JSON"""
+"""from datetime import datetime - Permite trabalhar com datas"""
+"""import time - Permite trabalhar com tempos, como pausar e etc..."""
+"""import os - Permite interagir e puxar informações do sistema operacional do próprio computador"""
+
 import json
 from datetime import datetime
 import time
 import os
 
+"""data - Pega a data atual, 'datetime.now()' pega a data de hoje/agora, '.strftime()' transforma a data em texto, formatando ela na ordem imposta"""
+
 data = datetime.now().strftime("%d/%m/%y")
-erro = True
+
+"""pasta_atual - Como o nome diz ele reconhece qual é o caminho da pasta atual"""
+"""os.path.dirname - Ele pega o caminho completo e deixa apenas o caminho até a pasta, sem o nome do arquivo atual"""
+"""os.path.abspath - Ele pega o caminho completo onde o arquivo atual (__file__) esta localizado"""
+
+pasta_atual = os.path.dirname(os.path.abspath(__file__))
+
+"""caminho - Ele junta pelo 'os.path.join' o caminho da pasta atual, com o arquivo JSON que desejamos acessar"""
+
+caminho = os.path.join(pasta_atual, "despesas.json")
 
 #=====================
 #Função de Limpar a Tela
 #=====================
 
+"""def limpar_tela() - Cria uma função que pode ser chamada depois"""
+"""os.system('cls'...) - Executa a limpeza de dados do terminal, 'os.system' permite executar comando no sistema operacional, 'cls' é o comando de limpar"""
+
 def limpar_tela():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system('cls')
 
 #=====================
 #Função para Avisos
 #=====================
+
+"""def aviso(texto) - A diferença nessa função é que ela tem um paramêtro que pode ser declarado quando chamada"""
+"""time.sleep(1) - Ele vem do 'import time', dando uma pausa de um segundo no sistema, para depois continuar"""
 
 def aviso(texto):
     limpar_tela()
@@ -26,6 +48,17 @@ def aviso(texto):
 #=====================
 #Função de Criação de Lista
 #=====================
+
+"""with open(caminho...) - Ele abre o arquivo, podendo pegar dados do arquivo json"""
+"""with - Meio que cuida do início e do fim da operação, fazendo uma limpeza automática quando sai do bloco"""
+"""open - Ela abre o caminho do arquivo"""
+"""'r' - Significa 'read' de ler, no caso ele lê o arquivo"""
+"""encoding='utf=8' - Permite que o sistema entenda o acentos e letras de diferentes idiomas, além do inglês"""
+"""as arquivo - Serve meio meio que como uma variável que guarda esse 'open(...)'"""
+"""desepesas = json.load(arquivo) - Cria uma variável que toda vez chamada carrega o json do caminho posto dentro da variável arquivo"""
+
+"""for item in despesas - Significa que para o 'item' (que pode ser um nome qualquer) rode o a variável despesas até acabar"""
+"""Ai ele vai escrevendo os dados que ele vai passando, na tela, ai vai repetindo até chegar no fim do arquivo"""
 
 def lista():
 
@@ -73,8 +106,7 @@ def menu():
             escolhas(opcao)
             return True
 
-pasta_atual = os.path.dirname(os.path.abspath(__file__))
-caminho = os.path.join(pasta_atual, "despesas.json")
+
 
 #=====================
 #Função de Cadastrar Despesas

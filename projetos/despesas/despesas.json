@@ -19,5 +19,12 @@
         "Valor": "9.99",
         "Categoria": "Alimento",
         "Data": "12/10/26"
+    },
+    {
+        "ID": 7,
+        "Nome": "Miojo",
+        "Valor": "3,99",
+        "Categoria": "Alimento",
+        "Data": "13/10/26"
     }
 ]
